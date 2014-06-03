@@ -1,8 +1,12 @@
+# Tui Popenoe
+# ps1a.py
+# 2014
+
 import math
 import sys
 
-def primes(n):
-    """ Return a list of primes < n"""
+def isPrime(n):
+    """Determine if n is prime"""
     if (math.sqrt(n)).is_integer():
         return False
     root = int(math.ceil(math.sqrt(n)))
@@ -18,11 +22,12 @@ def primes(n):
     return True
 
 def main(filename):
+    """Return a list of the first 1000 primes"""
     count = 0
     num = 1
     nums = []
     while count < 1000:
-        if primes(num):
+        if isPrime(num):
             nums.append(num)
             count += 1
             num += 1
