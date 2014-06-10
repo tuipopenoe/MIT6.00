@@ -1,38 +1,27 @@
 # Tui Popnenoe
 # ps2a.py
 
-def diophantine(tup):
-    tmin = tup[0]
-    tmed = tup[1]
-    tmax = tup[2]
+import sys
 
-    if tup[0] < tup[1]:
-        if tup[1] < tup[2]:
-            tmin = tup[0]
-            tmed = tup[1]
-            tmax = tup[2]
-        else:
-            tmin = tup[0]
-            tmed = tup[2]
-            tmax = tup[1]
-    else:
-        if tup[0] < tup[2]:
-            tmin = tup[0]
-            tmed = tup[1]
-            tmax = tup[2]
-        else:
-            tmin = tup[0]
-            tmed = tup[2]
-            tmax = tup[1]
+def diophantine(t, m):
+    print(t)
+    lst = list(t)
+    lst.sort()
 
+    tmin = lst[0]
+    tmed = lst[1]
+    tmax = lst[2]
+
+    print(tmin, tmed, tmax)
+    inflection = 2*tmin + 2*tmed + tmax;
 
     can = []
-    cannot = list(range(1, 200))
-    for i in range(1, 200):
-        for a in range(tup[0]):
-            for b in range(tup[1]):
-                for c in range(tup[2]):
-                    if a*6+b*9+c*20 == i:
+    cannot = list(range(1, (m)))
+    for i in range(1, inflection):
+        for a in range(tmed):
+            for b in range(tmin):
+                for c in range(int(tmax/tmin)):
+                    if a*tmin+b*tmed+c*tmax == i:
                         can.append(i)
 
     for el in can:
@@ -50,9 +39,9 @@ def diophantine(tup):
 
 
 
-def main(tup):
-    diophantine()
+def main(t, m):
+    diophantine(t, m)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1], sys.argv[2])
 
