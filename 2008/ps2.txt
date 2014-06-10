@@ -1,0 +1,28 @@
+// Tui Popenoe
+// ps2.txt
+
+diophantine(n):
+
+50 = 6+6+9+9+20         (n+1) * 6 + 2 * 9 + 20;
+51 = 6+6+6+6+6+6+6+9    (n + 6) * 6 + 9;
+52 = 6+6+20+20          (n+1) * 6 + 2 * 20;
+53 = 6+6+6+6+9+20       (n+3) * 6 + 9 + 20;
+54 = 9+9+9+9+9+9        (n+5) * 9;
+55 = 6+9+20+20          n*6 + 9 + 2 * 20;
+56 = 6+6+6+9+9+20       (n+2) * 6 + 2 * 9 + 20;
+
+57 = 6 + diophantine(51)
+58 = 6 + diophantine(52)
+59 = 6 + diophantine(53)
+60 = 6 + diophantine(54)
+61 = 6 + diophantine(55)
+62 = 6 + diophantine(56)
+63 = 6 + diophantine(57)
+64 = 6 + diophantine(58)
+65 = 6 + diophantine(59)
+
+
+Problem 2:
+
+For every integer after 56, the nuggets can be comprised of a combination
+of 6 and the integers 50 through 56.
