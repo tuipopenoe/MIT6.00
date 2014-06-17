@@ -1,7 +1,8 @@
 # Tui Popenoe
-# ps3b.py
+# ps3d.py
 
 import string
+import ps3b
 
 target1 = 'atgacatgcacaagtatgcat'
 target2 = 'atgaatgcatggatgtaaatgcag'
@@ -31,3 +32,9 @@ def subStringMatchOneSub(target, key):
         print 'possible matches for', key1, key2,'start at', filtered
 
     return allAnswers
+
+def main():
+    subStringMatchOneSub
+
+if __name__ == "__main__":
+    main()

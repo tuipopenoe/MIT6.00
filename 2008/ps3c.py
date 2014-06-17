@@ -1,7 +1,8 @@
 # Tui Popenoe
-# ps3b.py
+# ps3c.py
 
 import string
+import ps3b
 
 target1 = 'atgacatgcacaagtatgcat'
 target2 = 'atgaatgcatggatgtaaatgcag'
@@ -11,6 +12,8 @@ key11 = 'atg'
 key12 = 'atgc'
 key13 = 'atgca'
 
+def constrainedMatchPair(firstMatch, secondMatch, length):
+    
 
 def subStringMatchOneSub(target, key):
     """Search for all locations of key in target with one substitution"""
