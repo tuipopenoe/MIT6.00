@@ -13,7 +13,8 @@ key12 = 'atgc'
 key13 = 'atgca'
 
 def constrainedMatchPair(firstMatch, secondMatch, length):
-    
+    for i in range
+        if == 
 
 def subStringMatchOneSub(target, key):
     """Search for all locations of key in target with one substitution"""
