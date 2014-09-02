@@ -13,7 +13,7 @@ key12 = 'atgc'
 key13 = 'atgca'
 
 def constrainedMatchPair(firstMatch, secondMatch, length):
-    for i in range
+    for i in range(length):
         if == 
 
 def subStringMatchOneSub(target, key):
