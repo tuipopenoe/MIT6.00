@@ -156,6 +156,7 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
     hand_copy = hand
+    print("Copy of hand: ", hand)
     if word.lower() in word_list:
         for i in word:
             if i in hand_copy:
@@ -196,12 +197,21 @@ def play_hand(hand, word_list):
       hand: dictionary (string -> int)
       word_list: list of lowercase strings
     """
-    # TO DO ...
-    display_hand(hand)
-    current_word = raw_input("Enter a word: ")
-    if not is_valid_word(word, hand, word_list):
-        current_word = raw_input("Invalid input, enter a valid word: ")
-    word_score = get_word_score(word)
+    total_score = 0
+    while hand:
+        display_hand(hand)
+        current_word = raw_input("Enter a word ('.' to exit): ")
+        if current_word == '.':
+            break
+        while not is_valid_word(current_word, hand, word_list):
+                display_hand(hand)
+                current_word = raw_input("Invalid input, enter a valid word: ")
+        word_score = get_word_score(current_word)
+        total_score += word_score
+        print("Word Score: " + str(word_score))
+        print("Total Score: " + str(total_score))
+        update_hand(hand, current_word)
+    print(total_score)
 
 #
 # Problem #5: Playing a game
@@ -222,29 +232,22 @@ def play_game(word_list):
 
     * If the user inputs anything else, ask them again.
     """
-    # TO DO ...
-    print "play_game not implemented."         # delete this once you've completed Problem #4
-    play_hand(deal_hand(HAND_SIZE), word_list) # delete this once you've completed Problem #4
-    
-    ## uncomment the following block of code once you've completed Problem #4
-#    hand = deal_hand(HAND_SIZE) # random init
-#    while True:
-#        cmd = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
-#        if cmd == 'n':
-#            hand = deal_hand(HAND_SIZE)
-#            play_hand(hand.copy(), word_list)
-#            print
-#        elif cmd == 'r':
-#            play_hand(hand.copy(), word_list)
-#            print
-#        elif cmd == 'e':
-#            break
-#        else:
-#            print "Invalid command."
+    # random init
+    hand = deal_hand(HAND_SIZE)
+    while True:
+        cmd = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        if cmd == 'n':
+            hand = deal_hand(HAND_SIZE)
+            play_hand(hand.copy(), word_list)
+            print('\n')
+        elif cmd == 'r':
+            play_hand(hand.copy(), word_list)
+            print('\n')
+        elif cmd == 'e':
+            break
+        else:
+            print("Invalid command.")
 
-#
-# Build data structures used for entire session and play game
-#
 if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
