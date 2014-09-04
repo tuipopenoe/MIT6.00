@@ -26,15 +26,15 @@ def load_words():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print "Loading word list from file..."
+    print("Loading word list from file...")
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r', 0)
-    # wordlist: list of strings
-    wordlist = []
-    for line in inFile:
-        wordlist.append(line.strip().lower())
-    print "  ", len(wordlist), "words loaded."
-    return wordlist
+    with open(WORDLIST_FILENAME, 'r', 0) as inFile:
+        # wordlist: list of strings
+        wordlist = []
+        for line in inFile:
+            wordlist.append(line.strip().lower())
+        print("  " + str(len(wordlist)) + "words loaded.")
+        return wordlist
 
 def get_frequency_dict(sequence):
     """
@@ -71,7 +71,7 @@ def get_word_score(word, n):
     returns: int >= 0
     """
     score = 0
-    for i in range(n):
+    for i in range(len(word)):
         score += SCRABBLE_LETTER_VALUES[word[i]]
     if len(word) == n:
         score += 50
@@ -89,10 +89,11 @@ def display_hand(hand):
 
     hand: dictionary (string -> int)
     """
+    hand_display = []
     for letter in hand.keys():
-        for j in range(hand[letter]):
-            print(letter,)              # print all on the same line
-    print('\n')                              # print an empty line
+        for i in range(hand[letter]):
+            hand_display.extend(letter)
+    print(' '.join(hand_display) + '\n')
 
 def deal_hand(n):
     """
@@ -138,10 +139,14 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
+    hand_copy = hand.copy()
     for i in word:
-        if i in hand:
-            hand.pop(i, None)
-    return hand
+        if i in hand_copy:
+            if hand_copy[i] == 1:
+                hand_copy.pop(i, None)
+            else:
+                hand_copy[i] -= 1
+    return hand_copy
 #
 # Problem #3: Test word validity
 #
@@ -155,16 +160,22 @@ def is_valid_word(word, hand, word_list):
     hand: dictionary (string -> int)
     word_list: list of lowercase strings
     """
-    hand_copy = hand
-    print("Copy of hand: ", hand)
+    hand_copy = hand.copy()
     if word.lower() in word_list:
         for i in word:
             if i in hand_copy:
-                hand_copy.pop(i, None)
-        # Dict is False if empty
-        if not hand_copy:
-            return True
-    return False
+                try:
+                    if hand[i] == 1:
+                        hand_copy.pop(i, None)
+                    else:
+                        hand[i] -= 1
+                except:
+                    return False
+            else:
+                return False
+    else:
+        return False
+    return True
 
 #
 # Problem #4: Playing a hand
@@ -203,14 +214,18 @@ def play_hand(hand, word_list):
         current_word = raw_input("Enter a word ('.' to exit): ")
         if current_word == '.':
             break
-        while not is_valid_word(current_word, hand, word_list):
+        elif not is_valid_word(current_word, hand, word_list):
+            while not is_valid_word(current_word, hand, word_list):
                 display_hand(hand)
                 current_word = raw_input("Invalid input, enter a valid word: ")
-        word_score = get_word_score(current_word)
+        print("Is valid")
+        word_score = get_word_score(current_word, 
+            sum(hand.values()))
         total_score += word_score
         print("Word Score: " + str(word_score))
         print("Total Score: " + str(total_score))
         update_hand(hand, current_word)
+
     print(total_score)
 
 #
