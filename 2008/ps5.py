@@ -89,7 +89,7 @@ def display_hand(hand):
 
     hand: dictionary (string -> int)
     """
-    hand_display = []
+    hand_display = ['Hand: ']
     for letter in hand.keys():
         for i in range(hand[letter]):
             hand_display.extend(letter)
@@ -165,10 +165,10 @@ def is_valid_word(word, hand, word_list):
         for i in word:
             if i in hand_copy:
                 try:
-                    if hand[i] == 1:
+                    if hand_copy[i] == 1:
                         hand_copy.pop(i, None)
                     else:
-                        hand[i] -= 1
+                        hand_copy[i] -= 1
                 except:
                     return False
             else:
@@ -213,20 +213,22 @@ def play_hand(hand, word_list):
         display_hand(hand)
         current_word = raw_input("Enter a word ('.' to exit): ")
         if current_word == '.':
-            break
+            return
         elif not is_valid_word(current_word, hand, word_list):
             while not is_valid_word(current_word, hand, word_list):
                 display_hand(hand)
                 current_word = raw_input("Invalid input, enter a valid word: ")
+                if current_word == '.':
+                    return
         print("Is valid")
         word_score = get_word_score(current_word, 
             sum(hand.values()))
         total_score += word_score
         print("Word Score: " + str(word_score))
         print("Total Score: " + str(total_score))
-        update_hand(hand, current_word)
+        hand = update_hand(hand, current_word)
 
-    print(total_score)
+    print('Total Score: ' + str(total_score))
 
 #
 # Problem #5: Playing a game
