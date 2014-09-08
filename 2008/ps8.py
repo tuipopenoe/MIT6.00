@@ -104,8 +104,15 @@ def greedyAdvisor(subjects, maxWork, comparator):
                 temp  = subject_list[i]
                 subject_list[i] = subject_list[j]
                 subject_list[j] = temp
+    total = 0
+    current_list = []
+    # Greedily determine coursework using sorted list
+    for i in subject_list:
+        if subject_list[i][1][1] + total < maxWork:
+            current_list.extend(subject_list[i])
+            total += subject_list[i][1][1]
+    # Convert sorted list back to dict
     d = {x[0] : x[1] for x in subject_list}
-
     return d
 
 def bruteForceAdvisor(subjects, maxWork):
@@ -159,6 +166,10 @@ def bruteForceTime():
     Runs tests on bruteForceAdvisor and measures the time required to compute
     an answer.
     """
+    subjects = loadSubjects(SUBJECT_FILENAME)
+    t = timeit.Timer("bruteForceAdvisor('subjects', 15)", 'ps8')
+    t.timeit()
+    print(min(t.repeat(3, 10)))
 
 
 #
@@ -183,10 +194,7 @@ def dpTime():
     Runs tests on dpAdvisor and measures the time required to compute an
     answer.
     """
-    # TODO...
-
-# Problem 5 Observations
-# ======================
-#
-# TODO: write here your observations regarding dpAdvisor's performance and
-# how its performance compares to that of bruteForceAdvisor.
+    subjects = loadSubjects(SUBJECT_FILENAME)
+    t = timeit.Timer("dpAdvisor('subjects, 15)", 'ps8')
+    t.timeit()
+    print(min(t.repeat(3, 10)))
