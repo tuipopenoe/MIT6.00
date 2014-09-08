@@ -3,6 +3,7 @@
 # ps8.py - Dynamic Programming
 
 import time
+import timeit
 
 SUBJECT_FILENAME = "subjects.txt"
 VALUE, WORK = 0, 1
@@ -93,9 +94,18 @@ def greedyAdvisor(subjects, maxWork, comparator):
         return sum(y for v in dct.itervalues() for (x, y) in v)
 
     d = {}
-    for key, value in subjects.iteritems():
-        if _sumWork(d) + value[1] < maxWork:
-            d[key] = value
+    subject_list = subjects.items()
+
+    subject_list = sorted(subject_list, key=comparator)
+    # sort subject list
+    for i in range(len(subject_list) - 1):
+        for j in range(i, len(subject_list) -1):
+            if comparator(subject_list[i][1], subject_list[j][1]):
+                temp  = subject_list[i]
+                subject_list[i] = subject_list[j]
+                subject_list[j] = temp
+    d = {x[0] : x[1] for x in subject_list}
+
     return d
 
 def bruteForceAdvisor(subjects, maxWork):
@@ -149,12 +159,7 @@ def bruteForceTime():
     Runs tests on bruteForceAdvisor and measures the time required to compute
     an answer.
     """
-    # TODO...
 
-# Problem 3 Observations
-# ======================
-#
-# TODO: write here your observations regarding bruteForceTime's performance
 
 #
 # Problem 4: Subject Selection By Dynamic Programming
