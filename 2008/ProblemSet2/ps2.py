@@ -31,7 +31,7 @@ def diophantine():
     print(cannot[-1])
     return(cannot[-1:])
 
-def diophantine(t, m):
+def diophantineConstrained(t, m):
     """Return the largest number less than 200 that cannot be bought in exact
     quantity. 
 
@@ -69,7 +69,7 @@ def diophantine(t, m):
 
 def main():
     diophantine()
-    diophantine(sys.argv[1], sys.argv[2])
+    diophantineConstrained(sys.argv[1], sys.argv[2])
 
 if __name__ == "__main__":
     main()
