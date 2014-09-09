@@ -66,25 +66,18 @@ def findMaxExpenses(salary, save, preRetireGrowthRates, postRetireGrowthRates,
     Rets:
         list of the maximum expenses for each year of retirement
     """
-    fundsize = nestEggVariable(salary, save, preRetireGrowthRates)[-1]
+    savings = nestEggVariable(salary, save, preRetireGrowthRates)[-1]
     yearsOfRetirement = len(postRetireGrowthRates)
 
-    for growthRate in postRetireGrowthRates:
-        expenses = calculateExpenses(fundsize, epsilon, yearsOfRetirement)
-        fundsize = (fundsize * (1 + 0.01 * growthRate))
-        print('Size of Retirement Savings: ' + str(fundsize))
-        print('Maximum Expenses for the year: ' + str(expenses))
-    return fundsize
+    lowExpense = 0
+    highExpense = savings
+    endBalance = savings
 
-
-def calculateExpenses(fundsize, epsilon, yearsOfRetirement):
-    low = 0
-    high = fundsize
-    guess = (low + high) / 2
-    while abs(guess * yearsOfRetirement - fundsize) > epsilon:
-        if guess * yearsOfRetirement > fundsize:
-            high = guess
+    while abs(endBalance) > epsilon:
+        guess = (lowExpense + highExpense) / 2
+        endBalance = postRetirement(savings, postRetireGrowthRates, guess)[-1]
+        if endBalance > 0:
+            lowExpense = guess
         else:
-            low = guess
-        guess = (low + high) / 2
+            highExpense = guess
     return guess
