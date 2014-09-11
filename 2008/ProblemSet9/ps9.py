@@ -56,26 +56,18 @@ class Triangle(Shape):
         """
         self.base = float(base)
         self.height = float(height)
-
     def area(self):
         return (0.5 * self.base * self.height)
-
     def __str__(self):
         return 'Triangle with base' + str(self.base) + 'and height' +
             str(self.height)
-
     def __eq__(self, other):
         """
         Two triangles are equal if they have the same radius.
         other: object to check for equality
         """
-        return type(other) == Triangle and self.base = other.base
-            and self.height = other.height
-
-# Problem 2: Create the ShapeSet class
-#
-## TO DO: Fill in the following code skeleton according to the
-##    specifications.
+        return type(other) == Triangle and self.base == other.base
+            and self.height == other.height
 
 class ShapeSet:
     def __init__(self):
@@ -83,22 +75,22 @@ class ShapeSet:
         Initialize any needed variables
         """
         self.set = []
-
     def addShape(self, sh):
         """
         Add shape sh to the set; no two shapes in the set may be
         identical
         sh: shape to be added
         """
+        for i in self.set:
+            if sh.__eq__(i):
+                return
         self.set.append(sh)
-
     def __iter__(self):
         """
         Return an iterator that allows you to iterate over the set of
         shapes, one shape at a time
         """
         return iter(self.set)
-
     def __str__(self):
         """
         Return the string representation for a set, which consists of
@@ -106,7 +98,6 @@ class ShapeSet:
         (circles, then squares, then triangles)
         """
         for i in self.set:
-            
 
 def findLargest(shapes):
     """
@@ -114,15 +105,26 @@ def findLargest(shapes):
        largest area.
     shapes: ShapeSet
     """
-    ## TO DO
+    largest_area = 0
+    largest_shapes = []
+    for i in shapes:
+        if i.area() > largest_area:
+            largest_area = i.area()
+            largest_shapes = [i]
+        if i.area() == largest_area:
+            largest_shapes.append(i)
+    return largest_shapes
 
-#
-# Problem 4: Read shapes from a file into a ShapeSet
-#
 def readShapesFromFile(filename):
     """
     Retrieves shape information from the given file.
     Creates and returns a ShapeSet with the shapes found.
     filename: string
     """
-    ## TO DO
+    output = ShapeSet()
+    with open(filename, 'r') as f:
+        shapes = f.readlines().split(',')
+        for i in range(len(shapes)):
+            if i == 'circle':
+
+
