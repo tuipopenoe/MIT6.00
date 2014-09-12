@@ -98,6 +98,7 @@ class ShapeSet:
         (circles, then squares, then triangles)
         """
         for i in self.set:
+            print(i.__str__())
 
 def findLargest(shapes):
     """
@@ -124,7 +125,11 @@ def readShapesFromFile(filename):
     output = ShapeSet()
     with open(filename, 'r') as f:
         shapes = f.readlines().split(',')
-        for i in range(len(shapes)):
-            if i == 'circle':
-
-
+        for i in range(0, len(shapes), 2):
+            if shapes[i] == 'circle':
+                output.addShape(Circle(shapes[i+1]))
+            if shapes[i] == 'square':
+                output.addShape(Square(shapes[i+1]))
+            if shapes[i] == 'triangle':
+                output.addShape(Triangle(shapes[i+1]))
+    return output
