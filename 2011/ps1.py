@@ -21,7 +21,7 @@ def pay_minimum():
         print('Remaining balance: ' + str(balance))
         print('Total paid: ' + str(total))
 
-def payoff_year():
+def payoff_year_linear():
     balance = float(raw_input('Enter the outstanding balance on the card: '))
     apr = float(raw_input('Enter the annual percentage rate of interest: '))
     monthly_interest = apr / 12.0
@@ -36,3 +36,22 @@ def payoff_year():
                 break
         balance = base
 
+def payoff_year_logarithmic():
+    balance = float(raw_input('Enter the outstanding balance on the card: '))
+    apr = float(raw_input('Enter the annual percentage rate of interest: '))
+    monthly_interest = apr/12.0
+    low = 0
+    high = balance
+    endBalance = balance
+    base = balance
+    while abs(endBalance) > 0:
+        guess = (low + high) / 2 
+        for i in range(12):
+            balance = balance * (1 + monthly_interest) - guess
+        if endBalance > 0:
+            low = guess
+        else:
+            high = guess
+        balance = base
+
+    return guess
