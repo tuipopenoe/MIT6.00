@@ -3,6 +3,14 @@
 # ps1.py - Paying Credit Card Debt
 
 def pay_minimum():
+    """
+    Pay the minimum amount per month on the card and determine the balance after
+    12 months.
+    Args:
+        None
+    Rets:
+        None
+    """
     balance = float(raw_input('Enter the outstanding balance on the card: '))
     apr = float(raw_input('Enter the annual percentage rate of interest: '))
     minimum_payment_rate = float(raw_input('Enter the minimum payment rate: '))
@@ -22,6 +30,15 @@ def pay_minimum():
         print('Total paid: ' + str(total))
 
 def payoff_year_linear():
+    """
+    Determine the amount per month to pay off the balance in one year using a 
+    linear algorithm.
+
+    Args: 
+        None
+    Rets:
+        None
+    """
     balance = float(raw_input('Enter the outstanding balance on the card: '))
     apr = float(raw_input('Enter the annual percentage rate of interest: '))
     monthly_interest = apr / 12.0
@@ -37,6 +54,14 @@ def payoff_year_linear():
         balance = base
 
 def payoff_year_logarithmic():
+    """
+    Determine the amount per month to pay off the balance in one year using a
+    modified binary search.
+    Args:
+        None
+    Rets:
+        None
+    """
     balance = float(raw_input('Enter the outstanding balance on the card: '))
     apr = float(raw_input('Enter the annual percentage rate of interest: '))
     monthly_interest = apr/12.0
