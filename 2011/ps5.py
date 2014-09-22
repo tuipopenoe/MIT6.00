@@ -29,12 +29,6 @@ def process(url):
         ret.append(newsStory)
     return ret
 
-#======================
-# Part 1
-# Data structure design
-#======================
-
-# Problem 1
 class NewsStory(object):
     def __init__(self, guid='', title='', subject='', summary='', link=''):
 
@@ -61,34 +55,69 @@ class Trigger(object):
         """
         raise NotImplementedError
 
-# Whole Word Triggers
-# Problems 2-5
+class WordTrigger(Trigger):
+    def __init__(self, word):
+        self.word = word
 
-# TODO: WordTrigger
+    def is_word_in(self, story):
+        if self.word in story:
+            return True
+        else:
+            return False
 
-# TODO: TitleTrigger
-# TODO: SubjectTrigger
-# TODO: SummaryTrigger
+class TitleTrigger(WordTrigger):
+    def evaluate(self, story):
+        if self.is_word_in(self.get_title()):
+            return True
+        else:
+            return False
 
+class SubjectTrigger(WordTrigger):
+    def evaluate(self, story):
+        if self.is_word_in(self.get_subject()):
+            return True
+        else:
+            return False
 
-# Composite Triggers
-# Problems 6-8
+class SummaryTrigger(WordTrigger):
+    def evaluate(self, story):
+        if self.is_word_in(self.get_summary()):
+            return True
+        else:
+            return False
 
-# TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
+class NotTrigger(Trigger):
+    def __init__(self, T):
+        self.T = T
 
+    def evaluate(self, story):
+        return not self.T.evaluate(story)
 
-# Phrase Trigger
-# Question 9
+class AndTrigger(Trigger):
+    def __init__(self, T1, T2):
+        self.T1 = T1
+        self.T2 = T2
 
-# TODO: PhraseTrigger
+    def evaluate(self, story):
+        return self.T1.evaluate(story) and self.T2.evaluate(story)
 
+class OrTrigger(Trigger):
+    def __init__(self, T1, T2):
+        self.T1 = T1
+        self.T2 = T2
 
-#======================
-# Part 3
-# Filtering
-#======================
+    def evaluate(self, story):
+        return self.T1.evaluate(story) or self.T2.evaluate(story)
+
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase):
+        self.phrase = phrase
+
+    def evaluate(self, story):
+        if self.phrase in story:
+            return True
+        else:
+            return False
 
 def filter_stories(stories, triggerlist):
     """
@@ -96,15 +125,12 @@ def filter_stories(stories, triggerlist):
     Returns only those stories for whom
     a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering) 
-    # Feel free to change this line!
-    return stories
-
-#======================
-# Part 4
-# User-Specified Triggers
-#======================
+    output = []
+    for i in stories:
+        for j in triggerlist:
+            if j.evaluate(i):
+                output.append(i)
+    return output
 
 def readTriggerConfig(filename):
     """
