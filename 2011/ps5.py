@@ -67,21 +67,21 @@ class WordTrigger(Trigger):
 
 class TitleTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(self.get_title()):
+        if self.is_word_in(story.get_title()):
             return True
         else:
             return False
 
 class SubjectTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(self.get_subject()):
+        if self.is_word_in(story.get_subject()):
             return True
         else:
             return False
 
 class SummaryTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(self.get_summary()):
+        if self.is_word_in(story.get_summary()):
             return True
         else:
             return False
@@ -149,10 +149,27 @@ def readTriggerConfig(filename):
             continue
         lines.append(line)
 
-    # TODO: Problem 11
-    # 'lines' has a list of lines you need to parse
-    # Build a set of triggers from it and
-    # return the appropriate ones
+    triggers = {}
+    output_triggers = []
+    for line in lines:
+        if line[1] == 'SUBJECT':
+            triggers[line[0]] = SubjectTrigger(line[2])
+        if line[1] == 'SUMMARY':
+            triggers[line[0]] = SummaryTrigger(line[2])
+        if line[1] == 'TITLE':
+            triggers[line[0]] = TitleTrigger(line[2])
+        if line[1] == 'PHRASE':
+            triggers[line[0]] = PhraseTrigger(line[2:])
+        if line[1] == 'AND':
+            triggers[line[0]] = AndTrigger(line[2], line[3])
+        if line[1] == 'OR':
+            triggers[line[0]] = OrTrigger(line[2], line[3])
+        if line[1] == 'NOT':
+            triggers[line[0]] = NotTrigger(line[2], line[3])
+        if line[0] == 'ADD':
+            for i in line:
+                output_triggers.append(triggers[i])
+    return output_triggers
     
 import thread
 
