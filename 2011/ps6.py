@@ -248,7 +248,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         num_steps = 0
         robots = []
         for j in range(num_robots):
-            robots.append(robot(room, speed))
+            robots.append(StandardRobot(room, speed))
         while (room.getNumCleanedTiles / room.getNumTiles) < min_coverage:
             for k in robots:
                 k.updatePositionAndClean()

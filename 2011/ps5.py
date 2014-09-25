@@ -5,6 +5,7 @@
 import feedparser
 import string
 import time
+import re
 from project_util import translate_html
 from news_gui import Popup
 
@@ -31,6 +32,11 @@ def process(url):
 
 class NewsStory(object):
     def __init__(self, guid='', title='', subject='', summary='', link=''):
+        self.guid = guid
+        self.title = title
+        self.subject = subject
+        self.summary = summary
+        self.link = link
 
     def get_guid(self):
         return self.guid
@@ -57,31 +63,34 @@ class Trigger(object):
 
 class WordTrigger(Trigger):
     def __init__(self, word):
-        self.word = word
+        self.word = word.lower()
 
-    def is_word_in(self, story):
-        if self.word in story:
+    def is_word_in(self, text):
+        if re.search(r'\b' + re.escape(self.word) + r'\b', text.lower()):
             return True
         else:
             return False
 
 class TitleTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(story.get_title()):
+        title = story.get_title().lower()
+        if self.is_word_in(title):
             return True
         else:
             return False
 
 class SubjectTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(story.get_subject()):
+        subject = story.get_subject().lower()
+        if self.is_word_in(subject):
             return True
         else:
             return False
 
 class SummaryTrigger(WordTrigger):
     def evaluate(self, story):
-        if self.is_word_in(story.get_summary()):
+        summary = story.get_summary().lower()
+        if self.is_word_in(summary):
             return True
         else:
             return False
@@ -114,7 +123,11 @@ class PhraseTrigger(Trigger):
         self.phrase = phrase
 
     def evaluate(self, story):
-        if self.phrase in story:
+        if self.phrase in story.get_summary():
+            return True
+        elif self.phrase in story.get_subject():
+            return True
+        elif self.phrase in story.get_title():
             return True
         else:
             return False
