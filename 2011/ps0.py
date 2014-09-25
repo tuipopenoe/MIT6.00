@@ -1,4 +1,4 @@
-#!python2 
+#!python2
 # Tui Popenoe
 # ps0.py
 

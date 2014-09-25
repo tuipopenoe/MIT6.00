@@ -8,6 +8,7 @@ import random
 import ps6_visualize
 import pylab
 
+
 class Position(object):
     """
     A Position represents a location in a two-dimensional room.
@@ -18,10 +19,13 @@ class Position(object):
         """
         self.x = x
         self.y = y
+
     def getX(self):
         return self.x
+
     def getY(self):
         return self.y
+
     def getNewPosition(self, angle, speed):
         """
         Computes and returns the new Position after a single clock-tick has
@@ -44,6 +48,7 @@ class Position(object):
         new_y = old_y + delta_y
         return Position(new_x, new_y)
 
+
 class RectangularRoom(object):
     """
     A RectangularRoom represents a rectangular region containing clean or dirty
@@ -64,7 +69,7 @@ class RectangularRoom(object):
         self.width = width
         self.height = height
         self.tiles = [[False for i in range(width)] for j in range(height)]
-    
+
     def cleanTileAtPosition(self, pos):
         """
         Mark the tile under the position POS as cleaned.
@@ -89,7 +94,7 @@ class RectangularRoom(object):
             return True
         else:
             return False
-    
+
     def getNumTiles(self):
         """
         Return the total number of tiles in the room.
@@ -117,8 +122,8 @@ class RectangularRoom(object):
 
         returns: a Position object.
         """
-        return self.tiles[random.randint(0, self.width-1)][random.randint(0, 
-            self.height -1)]
+        return self.tiles[random.randint(0, self.width-1)][random.randint(
+            0, self.height - 1)]
 
     def isPositionInRoom(self, pos):
         """
@@ -131,6 +136,7 @@ class RectangularRoom(object):
             if 0 <= pos.getY() < self.height:
                 return True
         return False
+
 
 class Robot(object):
     """
@@ -163,7 +169,7 @@ class Robot(object):
         returns: a Position object giving the robot's position.
         """
         return self.pos
-    
+
     def getRobotDirection(self):
         """
         Return the direction of the robot.
@@ -200,14 +206,15 @@ class Robot(object):
         raise NotImplementedError()
 
 
-# === Problem 2
 class StandardRobot(Robot):
     """
     A StandardRobot is a Robot with the standard movement strategy.
 
-    At each time-step, a StandardRobot attempts to move in its current direction; when
+    At each time-step, a StandardRobot attempts to move in its current
+    direction; when
     it hits a wall, it chooses a new direction randomly.
     """
+
     def updatePositionAndClean(self):
         """
         Simulate the passage of a single time-step.
@@ -220,10 +227,9 @@ class StandardRobot(Robot):
         # Move to new position
         self.pos = self.pos.getNewPosition(self.dir, self.speed)
         while not self.room.isPositionInRoom(self.pos):
-            self.dir = random.randint(0,360)
+            self.dir = random.randint(0, 360)
             self.pos = self.pos.getNewPosition(self.dir, self.speed)
 
-# === Problem 3
 
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
@@ -248,7 +254,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         num_steps = 0
         robots = []
         for j in range(num_robots):
-            robots.append(StandardRobot(room, speed))
+            robots.append(robot_type(room, speed))
         while (room.getNumCleanedTiles / room.getNumTiles) < min_coverage:
             for k in robots:
                 k.updatePositionAndClean()
@@ -258,22 +264,26 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
 # === Problem 4
 #
-# 1) How long does it take to clean 80% of a 20×20 room with each of 1-10 robots?
+# 1) How long does it take to clean 80% of a 20×20 room with each of 1-10
+# robots?
 #
-# 2) How long does it take two robots to clean 80% of rooms with dimensions 
-#	 20×20, 25×16, 40×10, 50×8, 80×5, and 100×4?
+# 2) How long does it take two robots to clean 80% of rooms with dimensions
+# 20×20, 25×16, 40×10, 50×8, 80×5, and 100×4?
+
 
 def showPlot1():
     """
     Produces a plot showing dependence of cleaning time on number of robots.
-    """ 
+    """
     raise NotImplementedError
+
 
 def showPlot2():
     """
     Produces a plot showing dependence of cleaning time on room shape.
     """
     raise NotImplementedError
+
 
 # === Problem 5
 
@@ -295,3 +305,10 @@ def showPlot3():
     Produces a plot comparing the two robot strategies.
     """
     raise NotImplementedError
+
+
+def main():
+    print(runSimulation(10, 1, 10, 10, 0.8))
+
+if __name__ == '__main__':
+    main()

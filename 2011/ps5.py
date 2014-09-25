@@ -9,6 +9,7 @@ import re
 from project_util import translate_html
 from news_gui import Popup
 
+
 def process(url):
     """
     Fetches news items from the rss url and parses them.
@@ -29,6 +30,7 @@ def process(url):
         newsStory = NewsStory(guid, title, subject, summary, link)
         ret.append(newsStory)
     return ret
+
 
 class NewsStory(object):
     def __init__(self, guid='', title='', subject='', summary='', link=''):
@@ -53,6 +55,7 @@ class NewsStory(object):
     def get_link(self):
         return self.link
 
+
 class Trigger(object):
     def evaluate(self, story):
         """
@@ -60,6 +63,7 @@ class Trigger(object):
         for the given news item, or False otherwise.
         """
         raise NotImplementedError
+
 
 class WordTrigger(Trigger):
     def __init__(self, word):
@@ -71,6 +75,7 @@ class WordTrigger(Trigger):
         else:
             return False
 
+
 class TitleTrigger(WordTrigger):
     def evaluate(self, story):
         title = story.get_title().lower()
@@ -78,6 +83,7 @@ class TitleTrigger(WordTrigger):
             return True
         else:
             return False
+
 
 class SubjectTrigger(WordTrigger):
     def evaluate(self, story):
@@ -87,6 +93,7 @@ class SubjectTrigger(WordTrigger):
         else:
             return False
 
+
 class SummaryTrigger(WordTrigger):
     def evaluate(self, story):
         summary = story.get_summary().lower()
@@ -95,12 +102,14 @@ class SummaryTrigger(WordTrigger):
         else:
             return False
 
+
 class NotTrigger(Trigger):
     def __init__(self, T):
         self.T = T
 
     def evaluate(self, story):
         return not self.T.evaluate(story)
+
 
 class AndTrigger(Trigger):
     def __init__(self, T1, T2):
@@ -110,6 +119,7 @@ class AndTrigger(Trigger):
     def evaluate(self, story):
         return self.T1.evaluate(story) and self.T2.evaluate(story)
 
+
 class OrTrigger(Trigger):
     def __init__(self, T1, T2):
         self.T1 = T1
@@ -117,6 +127,7 @@ class OrTrigger(Trigger):
 
     def evaluate(self, story):
         return self.T1.evaluate(story) or self.T2.evaluate(story)
+
 
 class PhraseTrigger(Trigger):
     def __init__(self, phrase):
@@ -132,6 +143,7 @@ class PhraseTrigger(Trigger):
         else:
             return False
 
+
 def filter_stories(stories, triggerlist):
     """
     Takes in a list of NewsStory-s.
@@ -145,6 +157,7 @@ def filter_stories(stories, triggerlist):
                 output.append(i)
     return output
 
+
 def readTriggerConfig(filename):
     """
     Returns a list of trigger objects
@@ -155,7 +168,7 @@ def readTriggerConfig(filename):
     # to read in the file and eliminate
     # blank lines and comments
     triggerfile = open(filename, "r")
-    all = [ line.rstrip() for line in triggerfile.readlines() ]
+    all = [line.rstrip() for line in triggerfile.readlines()]
     lines = []
     for line in all:
         if len(line) == 0 or line[0] == '#':
@@ -183,8 +196,9 @@ def readTriggerConfig(filename):
             for i in line:
                 output_triggers.append(triggers[i])
     return output_triggers
-    
+
 import thread
+
 
 def main_thread(p):
     # A sample trigger list - you'll replace
@@ -194,13 +208,11 @@ def main_thread(p):
     t3 = PhraseTrigger("Supreme Court")
     t4 = OrTrigger(t2, t3)
     triggerlist = [t1, t4]
-    
-    # TODO: Problem 11
-    # After implementing readTriggerConfig, uncomment this line 
-    #triggerlist = readTriggerConfig("triggers.txt")
+
+    triggerlist = readTriggerConfig("triggers.txt")
 
     guidShown = []
-    
+
     while True:
         print "Polling..."
 
@@ -211,13 +223,13 @@ def main_thread(p):
 
         # Only select stories we're interested in
         stories = filter_stories(stories, triggerlist)
-    
+
         # Don't print a story if we have already printed it before
         newstories = []
         for story in stories:
             if story.get_guid() not in guidShown:
                 newstories.append(story)
-        
+
         for story in newstories:
             guidShown.append(story.get_guid())
             p.newWindow(story)
@@ -225,7 +237,7 @@ def main_thread(p):
         print "Sleeping..."
         time.sleep(SLEEPTIME)
 
-SLEEPTIME = 60 #seconds -- how often we poll
+SLEEPTIME = 60  # seconds -- how often we poll
 
 if __name__ == '__main__':
     p = Popup()

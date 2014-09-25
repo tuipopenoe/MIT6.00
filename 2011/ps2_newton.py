@@ -4,6 +4,7 @@
 
 from math import pow
 
+
 def evaluate_poly(poly, x):
     """
     Computes the polynomial function for a given value x. Returns that value.
@@ -18,6 +19,7 @@ def evaluate_poly(poly, x):
     for i in range(len(poly)):
         result += poly[i] * pow(x, i)
     return result
+
 
 def compute_deriv(poly):
     """
@@ -36,6 +38,7 @@ def compute_deriv(poly):
         for i in range(len(poly) - 1):
             result.append(poly[i+1] * (i + 1))
     return tuple(result)
+
 
 def compute_root(poly, x_0, epsilon, count=0):
     """
@@ -57,8 +60,9 @@ def compute_root(poly, x_0, epsilon, count=0):
         return (x_0, count)
     else:
         x_1 = x_0 - (evaluate_poly(poly, x_0) /
-            evaluate_poly(compute_deriv(poly), x_0))
+                     evaluate_poly(compute_deriv(poly), x_0))
         return compute_root(poly, x_1, epsilon, count+1)
+
 
 def test_evaluate_poly():
     """
@@ -73,6 +77,7 @@ def test_evaluate_poly():
     x = -13
     assert evaluate_poly(poly, x) == 180339.9
 
+
 def test_compute_deriv():
     """
     Tests the compute_deriv() method
@@ -84,6 +89,7 @@ def test_compute_deriv():
     """
     poly = (-13.39, 0.0, 17.5, 3.0, 1.0)
     assert compute_deriv(poly) == (0.0, 35.0, 9.0, 4.0)
+
 
 def test_compute_root():
     """
@@ -99,6 +105,7 @@ def test_compute_root():
     epsilon = 0.0001
     print(compute_root(poly, x_0, epsilon))
     assert compute_root(poly, x_0, epsilon) == (0.80679075379635201, 8)
+
 
 def main():
     test_evaluate_poly()

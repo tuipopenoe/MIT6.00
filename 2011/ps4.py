@@ -2,21 +2,20 @@
 # Tui Popenoe
 # ps4.py - Caesar ciphers
 
-
-
-
 characters = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+              'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+              'z']
 
 import string
 import random
 
 WORDLIST_FILENAME = "words.txt"
 
+
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Depending on the size of the word list, this function may
     take a while to finish.
     """
@@ -31,6 +30,7 @@ def load_words():
     return wordlist
 
 wordlist = load_words()
+
 
 def is_word(wordlist, word):
     """
@@ -50,14 +50,16 @@ def is_word(wordlist, word):
     word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
     return word in wordlist
 
+
 def random_word(wordlist):
     """
     Returns a random word.
 
-    wordlist: list of words  
+    wordlist: list of words
     returns: a word from wordlist at random
     """
     return random.choice(wordlist)
+
 
 def random_string(wordlist, n):
     """
@@ -67,6 +69,7 @@ def random_string(wordlist, n):
     returns: a string of random words separated by spaces.
     """
     return " ".join([random_word(wordlist) for _ in range(n)])
+
 
 def random_scrambled(wordlist, n):
     """
@@ -83,8 +86,10 @@ def random_scrambled(wordlist, n):
     implementation of apply_shifts!
     """
     s = random_string(wordlist, n) + " "
-    shifts = [(i, random.randint(0, 26)) for i in range(len(s)) if s[i-1] == ' ']
+    shifts = [(i, random.randint(0, 26)) for i in range(len(s)) if s[i-1] ==
+              ' ']
     return apply_shifts(s, shifts)[:-1]
+
 
 def get_fable_string():
     """
@@ -94,6 +99,7 @@ def get_fable_string():
     fable = str(f.read())
     f.close()
     return fable
+
 
 def build_coder(shift):
     """
@@ -109,9 +115,11 @@ def build_coder(shift):
     for i in range(len(characters)):
         cipher[characters[i]] = characters[(i + shift) % 27]
         if characters[i] != ' ':
-            cipher[characters[i].upper()] = characters[(i + shift) % 27].upper()
+            cipher[characters[i].upper()] = characters[(i + shift) % 27]
+            .upper()
     print(cipher)
     return cipher
+
 
 def build_encoder(shift):
     """
@@ -119,6 +127,7 @@ def build_encoder(shift):
     defined by the shift value. Ignores non-letter characters like punctuation
     and numbers.
     """
+
 
 def build_decoder(shift):
     """
@@ -132,6 +141,7 @@ def build_decoder(shift):
     coder = build_coder(shift)
     decoder = dict(zip(coder.values(), coder.keys()))
     return decoder
+
 
 def apply_coder(text, coder):
     """
@@ -147,6 +157,7 @@ def apply_coder(text, coder):
     for i in text:
         coded_text += coder[i]
     return coded_text
+
 
 def apply_shift(text, shift):
     """
@@ -168,7 +179,6 @@ def apply_shift(text, shift):
         else:
             shifted_text += i
     return shifted_text
-
 
 
 def main():

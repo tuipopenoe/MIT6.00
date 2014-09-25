@@ -2,10 +2,11 @@
 # Tui Popenoe
 # ps1.py - Paying Credit Card Debt
 
+
 def pay_minimum():
     """
-    Pay the minimum amount per month on the card and determine the balance after
-    12 months.
+    Pay the minimum amount per month on the card and determine the balance
+    after 12 months.
     Args:
         None
     Rets:
@@ -24,17 +25,19 @@ def pay_minimum():
         balance -= principal_paid
         total += principal_paid + interest_paid
         print('Month ' + i + 1)
-        print('Minimum Monthly Payment: ' + str(minimum_payment_rate * balance))
+        print('Minimum Monthly Payment: ' +
+              str(minimum_payment_rate * balance))
         print('Principal paid: ' + str(principal_paid))
         print('Remaining balance: ' + str(balance))
         print('Total paid: ' + str(total))
 
+
 def payoff_year_linear():
     """
-    Determine the amount per month to pay off the balance in one year using a 
+    Determine the amount per month to pay off the balance in one year using a
     linear algorithm.
 
-    Args: 
+    Args:
         None
     Rets:
         None
@@ -53,6 +56,7 @@ def payoff_year_linear():
                 break
         balance = base
 
+
 def payoff_year_logarithmic():
     """
     Determine the amount per month to pay off the balance in one year using a
@@ -70,7 +74,7 @@ def payoff_year_logarithmic():
     endBalance = balance
     base = balance
     while abs(endBalance) > 0:
-        guess = (low + high) / 2 
+        guess = (low + high) / 2
         for i in range(12):
             balance = balance * (1 + monthly_interest) - guess
         if endBalance > 0:

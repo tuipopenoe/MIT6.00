@@ -10,15 +10,18 @@ CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
 
 SCRABBLE_LETTER_VALUES = {
-    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
+    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1,
+    'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1,
+    's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
 }
 
 WORDLIST_FILENAME = "words.txt"
 
+
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Depending on the size of the word list, this function may
     take a while to finish.
     """
@@ -32,6 +35,7 @@ def load_words():
     print "  ", len(wordlist), "words loaded."
     return wordlist
 
+
 def get_frequency_dict(sequence):
     """
     Returns a dictionary where the keys are elements of the sequence
@@ -44,8 +48,9 @@ def get_frequency_dict(sequence):
     # freqs: dictionary (element_type -> int)
     freq = {}
     for x in sequence:
-        freq[x] = freq.get(x,0) + 1
+        freq[x] = freq.get(x, 0) + 1
     return freq
+
 
 def get_word_score(word, n):
     """
@@ -63,6 +68,7 @@ def get_word_score(word, n):
     returns: int >= 0
     """
 
+
 def display_hand(hand):
     """
     Displays the letters currently in the hand.
@@ -77,8 +83,9 @@ def display_hand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-             print letter,              # print all on the same line
+            print letter,              # print all on the same line
     print                               # print an empty line
+
 
 def deal_hand(n):
     """
@@ -105,6 +112,7 @@ def deal_hand(n):
         
     return hand
 
+
 def update_hand(hand, word):
     """
     Assumes that 'hand' has all the letters in word.
@@ -122,6 +130,7 @@ def update_hand(hand, word):
     returns: dictionary (string -> int)
     """
 
+
 def is_valid_word(word, hand, word_list):
     """
     Returns True if word is in the word_list and is entirely
@@ -133,11 +142,13 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
 
+
 def calculate_handlen(hand):
     handlen = 0
     for v in hand.values():
         handlen += v
     return handlen
+
 
 def play_hand(hand, word_list):
 
@@ -185,6 +196,7 @@ def play_game(word_list):
     * If the user inputs anything else, ask them again.
     """
 
+
 if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
@@ -204,6 +216,7 @@ def comp_choose_word(hand, word_list):
     word_list: list (string)
     """
     # TO DO...
+
 
 #
 # Problem #6B: Computer plays a hand

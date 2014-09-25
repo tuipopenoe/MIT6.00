@@ -7,10 +7,11 @@ import string
 
 WORDLIST_FILENAME = "words.txt"
 
+
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Args:
         None
     Rets:
@@ -24,6 +25,7 @@ def load_words():
     print "  ", len(wordlist), "words loaded."
     return wordlist
 
+
 def choose_word(wordlist):
     """
     wordlist (list): list of words (strings)
@@ -32,11 +34,12 @@ def choose_word(wordlist):
     """
     return random.choice(wordlist)
 
+
 def play_game():
     wordlist = load_words()
     available_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
-        'z']
+                         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                         'w', 'x', 'y', 'z']
     word = choose_word(wordlist)
     guesses = len(word) + 2
     blanks = ['_' for i in range(len(word))]
@@ -44,10 +47,8 @@ def play_game():
         print('You have ' + str(guesses) + ' guesses left.')
         print('Available letters: ' + ''.join(available_letters))
         letter = raw_input('Please guess a letter: ').lower()
-        #letter = string.lowercase(letter)
         while len(letter) != 1:
             letter = raw_input('Please guess a letter: ').lower()
-            #letter = string.lowercase(letter)
         if letter in word:
             for i in range(len(word)):
                 if word[i] == letter:
@@ -57,20 +58,15 @@ def play_game():
         else:
             print('Oops! That letter is not in my word: ' + ''.join(blanks))
         guesses -= 1
-        if blanks == word && guesses > 0:
+        if blanks == word and guesses > 0:
             print('Congratulations, you won!')
             break
         elif guesses < 1:
             print('You Lose! Word was: ' + word)
+
 
 def main():
     play_game()
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
