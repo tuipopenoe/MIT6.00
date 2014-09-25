@@ -152,7 +152,9 @@ class Robot(object):
         speed: a float (speed > 0)
         """
         self.pos = room.getRandomPosition()
-        self.dir = 
+        self.room = room
+        self.speed = speed
+        self.dir = random.randint(0, 360)
 
     def getRobotPosition(self):
         """
@@ -169,7 +171,7 @@ class Robot(object):
         returns: an integer d giving the direction of the robot as an angle in
         degrees, 0 <= d < 360.
         """
-        raise NotImplementedError
+        return self.dir
 
     def setRobotPosition(self, position):
         """
@@ -177,7 +179,7 @@ class Robot(object):
 
         position: a Position object.
         """
-        raise NotImplementedError
+        self.pos = position
 
     def setRobotDirection(self, direction):
         """
@@ -185,7 +187,7 @@ class Robot(object):
 
         direction: integer representing an angle in degrees
         """
-        raise NotImplementedError
+        self.dir = direction
 
     def updatePositionAndClean(self):
         """
@@ -194,7 +196,8 @@ class Robot(object):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        # Not implemented in the super class
+        raise NotImplementedError()
 
 
 # === Problem 2
@@ -212,7 +215,13 @@ class StandardRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        # Clean tile at position
+        self.room.cleanTileAtPosition(self.pos)
+        # Move to new position
+        self.pos = self.pos.getNewPosition(self.dir, self.speed)
+        while not self.room.isPositionInRoom(self.pos):
+            self.dir = random.randint(0,360)
+            self.pos = self.pos.getNewPosition(self.dir, self.speed)
 
 # === Problem 3
 
@@ -234,8 +243,18 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     robot_type: class of robot to be instantiated (e.g. Robot or
                 RandomWalkRobot)
     """
-    raise NotImplementedError
-
+    for i in range(num_trials):
+        room = room(width, height)
+        num_steps = 0
+        robots = []
+        for j in range(num_robots):
+            robots.append(robot(room, speed))
+        while (room.getNumCleanedTiles / room.getNumTiles) < min_coverage:
+            for k in robots:
+                k.updatePositionAndClean()
+            num_steps += 1
+        total += num_steps
+    return int(total/num_trials)
 
 # === Problem 4
 #
