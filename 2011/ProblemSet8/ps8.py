@@ -104,17 +104,15 @@ class ResistantVirus(SimpleVirus):
             for i in range(len(self.resistances.keys())):
                 if random.random() < 1 - self.mutProb:
                     child
-            return ResistantVirus(self.maxBirthProb, self.clearProb
+            return ResistantVirus(self.maxBirthProb, self.clearProb, list(child_resistances), self.mutProb)
+        return NoChildException()
 
-            
 
 class Patient(SimplePatient):
-
     """
     Representation of a patient. The patient is able to take drugs and his/her
     virus population can acquire resistance to the drugs he/she takes.
     """
-
     def __init__(self, viruses, maxPop):
         """
         Initialization function, saves the viruses and maxPop parameters as
@@ -126,11 +124,11 @@ class Patient(SimplePatient):
         
         maxPop: the  maximum virus population for this patient (an integer)
         """
-        # TODO
-    
+        self.viruses = viruses
+        self.maxPop = maxPop
+        self.drugs = []
 
     def addPrescription(self, newDrug):
-
         """
         Administer a drug to this patient. After a prescription is added, the 
         drug acts on the virus population for all subsequent time steps. If the
@@ -140,9 +138,8 @@ class Patient(SimplePatient):
 
         postcondition: list of drugs being administered to a patient is updated
         """
-        # TODO
-        # should not allow one drug being added to the list multiple times
-
+        if newDrug not in self.drugs:
+            self.drugs.append(newDrug)
 
     def getPrescriptions(self):
 
@@ -151,9 +148,7 @@ class Patient(SimplePatient):
         returns: The list of drug names (strings) being administered to this
         patient.
         """
-
-        # TODO
-        
+        return self.drugs
 
     def getResistPop(self, drugResist):
         """
@@ -166,12 +161,14 @@ class Patient(SimplePatient):
         returns: the population of viruses (an integer) with resistances to all
         drugs in the drugResist list.
         """
-        # TODO
-                   
-
+        set_drugs = set(drugResist)
+        resistant_count = 0
+        for i in self.viruses:
+            if set_drugs.issubset(i.resistances):
+                count += 1
+        return resistant_count
 
     def update(self):
-
         """
         Update the state of the virus population in this patient for a single
         time step. update() should execute these actions in order:
@@ -188,13 +185,18 @@ class Patient(SimplePatient):
         returns: the total virus population at the end of the update (an
         integer)
         """
-        # TODO
+        virii = []
+        population_density = getTotalPop() / self.maxPop
+        for i in xrange(len(self.viruses) -1, -1, -1):
+            if self.viruses[i].doesClear():
+                del self.viruses[i]
+            else:
+                virus = self.viruses[i].reproduce(population_density)
+                if isinstance(virus, ResistantVirus):
+                    virii.append(virus)
+        self.viruses.extend(virii)
+        return getTotalPop()
 
-
-
-#
-# PROBLEM 2
-#
 
 def simulationWithDrug():
 
