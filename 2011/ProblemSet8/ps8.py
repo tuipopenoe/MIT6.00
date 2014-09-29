@@ -208,13 +208,10 @@ def simulationWithDrug():
     total virus population vs. time and guttagonol-resistant virus population
     vs. time are plotted
     """
-    # TODO
-
-
-
-#
-# PROBLEM 3
-#        
+    viruses = [ResistantVirus(0.1, 0.5, [], 0.1) for x in xrange(100)]
+    patient = Patient()
+    for i in xrange(300):
+        patient.update()
 
 def simulationDelayedTreatment():
 
@@ -227,11 +224,6 @@ def simulationDelayedTreatment():
     simulation).    
     """
 
-    # TODO
-
-#
-# PROBLEM 4
-#
 
 def simulationTwoDrugsDelayedTreatment():
 

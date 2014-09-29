@@ -24,6 +24,7 @@ def loadSubjects(filename):
                 output[i[0]] = (i[1], i[2])
     return output
 
+
 def printSubjects(subjects):
     """
     Prints a string containing name, value, and work of each subject in
@@ -45,6 +46,7 @@ def printSubjects(subjects):
     res = res + 'Total Work:\t' + str(totalWork) + '\n'
     print res
 
+
 def cmpValue(subInfo1, subInfo2):
     """
     Returns True if value in (value, work) tuple subInfo1 is GREATER than
@@ -53,6 +55,7 @@ def cmpValue(subInfo1, subInfo2):
     if(subInfo1[0] > subInfo2[0]):
         return True
     return False
+
 
 def cmpWork(subInfo1, subInfo2):
     """
@@ -63,6 +66,7 @@ def cmpWork(subInfo1, subInfo2):
         return True
     return False
 
+
 def cmpRatio(subInfo1, subInfo2):
     """
     Returns True if value/work in (value, work) tuple subInfo1 is 
@@ -71,6 +75,7 @@ def cmpRatio(subInfo1, subInfo2):
     if (subInfo1[0] / subInfo1[1) > (subInfo2[0] / subInfo2[1]):
         return True
     return False
+
 
 def greedyAdvisor(subjects, maxWork, comparator):
     """
@@ -84,7 +89,20 @@ def greedyAdvisor(subjects, maxWork, comparator):
     comparator: function taking two tuples and returning a bool
     returns: dictionary mapping subject name to (value, work)
     """
-    #TODO
+    current_work = 0
+    output = []
+    # sort the subjects by value
+    subjects_list = sorted([(k, v) for k, v in subjects.iteritems()],
+        key=itemgetter(1))
+    while current_work < 0:
+        for i in subjects_list:
+            if current_work + i[1][1] < maxWork:
+                output.append(i)
+                current_work += i[1][1]
+            else:
+                current_work = maxWork
+    return dict((key, value) for (key, value) in subjects_list)
+
 
 def bruteForceAdvisor(subjects, maxWork):
     """
@@ -96,6 +114,8 @@ def bruteForceAdvisor(subjects, maxWork):
     maxWork: int >= 0
     returns: dictionary mapping subject name to (value, work)
     """
-    #TODO
-
-
+    output = []
+    subjects_list = sorted([(k, v) for k, v in subjects.iteritems()],
+        key=itemgetter(1))
+    for i in subjects_list:
+        
