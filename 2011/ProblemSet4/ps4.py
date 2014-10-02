@@ -9,10 +9,8 @@ characters = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 import string
 import random
 
-WORDLIST_FILENAME = "words.txt"
 
-
-def load_words():
+def load_words(filename='words.txt'):
     """
     Returns a list of valid words. Words are strings of lowercase letters.
 
@@ -21,7 +19,7 @@ def load_words():
     """
     print "Loading word list from file..."
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r', 0)
+    inFile = open(filename, 'r', 0)
     # line: string
     line = inFile.readline()
     # wordlist: list of strings
@@ -127,7 +125,18 @@ def build_encoder(shift):
     defined by the shift value. Ignores non-letter characters like punctuation
     and numbers.
     """
-
+    cipher = {}
+    if shift > 27:
+        shift = 27
+    if shift < 1:
+        shift = 1
+    for i in range(len(characters)):
+        cipher[characters[i]] = characters[(i + shift) % 27]
+        if characters[i] != ' ':
+            cipher[characters[i].upper()] = characters[(i + shift) % 27]
+            .upper()
+    print(cipher)
+    return cipher
 
 def build_decoder(shift):
     """
