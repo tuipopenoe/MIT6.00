@@ -4,40 +4,33 @@
 
 from ps4 import *
 
-def testNestEggFixed():
+def test_nest_egg_fixed():
     salary     = 10000
     save       = 10
     growthRate = 15
     years      = 5
     savingsRecord = nestEggFixed(salary, save, growthRate, years)
     print savingsRecord
-    # Output should have values close to:
-    # [1000.0, 2150.0, 3472.5, 4993.375, 6742.3812499999995]
+    test_vals = [1000.0, 2150.0, 3472.5, 4993.375, 6742.3812499999995]
+    self.assertEqual(savingsRecord, test_vals)
 
-    # TODO: Add more test cases here.
-
-def testNestEggVariable():
+def test_nest_egg_variable():
     salary      = 10000
     save        = 10
     growthRates = [3, 4, 5, 0, 3]
     savingsRecord = nestEggVariable(salary, save, growthRates)
     print savingsRecord
-    # Output should have values close to:
-    # [1000.0, 2040.0, 3142.0, 4142.0, 5266.2600000000002]
+    test_vals = [1000.0, 2040.0, 3142.0, 4142.0, 5266.2600000000002]
+    self.assertEqual(savingsRecord, test_vals)
 
-    # TODO: Add more test cases here.
-
-def testPostRetirement():
+def test_post_retirement():
     savings     = 100000
     growthRates = [10, 5, 0, 5, 1]
     expenses    = 30000
     savingsRecord = postRetirement(savings, growthRates, expenses)
     print savingsRecord
-    # Output should have values close to:
-    # [80000.000000000015, 54000.000000000015, 24000.000000000015,
-    # -4799.9999999999854, -34847.999999999985]
-
-    # TODO: Add more test cases here.
+    test_vals = [80000.000000000015, 54000.000000000015, 24000.000000000015,
+    self.assertEqual(savingsRecord, test_vals)
 
 def testFindMaxExpenses():
     salary                = 10000
@@ -48,10 +41,8 @@ def testFindMaxExpenses():
     expenses = findMaxExpenses(salary, save, preRetireGrowthRates,
                                postRetireGrowthRates, epsilon)
     print expenses
-    # Output should have a value close to:
-    # 1229.95548986
-
-    # TODO: Add more test cases here.
+    test_val = 1229.95548986
+    self.assertEqual(expenses, test_val)
 
 print("----------------------------------------------------------------------")
 print("Testing nestEggFixed...")
