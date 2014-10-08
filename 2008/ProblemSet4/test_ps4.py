@@ -32,7 +32,7 @@ def test_post_retirement():
     test_vals = [80000.000000000015, 54000.000000000015, 24000.000000000015,
     self.assertEqual(savingsRecord, test_vals)
 
-def testFindMaxExpenses():
+def test_find_max_expenses():
     salary                = 10000
     save                  = 10
     preRetireGrowthRates  = [3, 4, 5, 0, 3]
@@ -44,17 +44,18 @@ def testFindMaxExpenses():
     test_val = 1229.95548986
     self.assertEqual(expenses, test_val)
 
-print("----------------------------------------------------------------------")
-print("Testing nestEggFixed...")
-testNestEggFixed()
-print("----------------------------------------------------------------------")
-print("Testing nestEggVariable...")
-testNestEggVariable()
-print("----------------------------------------------------------------------")
-print("Testing postRetirement...")
-testPostRetirement()
-print("----------------------------------------------------------------------")
-print("Testing findMaxExpenses...")
-testFindMaxExpenses()
-print "----------------------------------------------------------------------"
-print "All done!"
+def main():
+    print("------------------------------------------------------------------")
+    print("Testing nestEggFixed...")
+    test_nest_egg_fixed()
+    print("------------------------------------------------------------------")
+    print("Testing nestEggVariable...")
+    test_nest_egg_variable()
+    print("------------------------------------------------------------------")
+    print("Testing postRetirement...")
+    test_post_retirement()
+    print("------------------------------------------------------------------")
+    print("Testing findMaxExpenses...")
+    test_find_max_expenses()
+    print("------------------------------------------------------------------")
+    print("All done!")
